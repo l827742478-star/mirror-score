@@ -25,28 +25,28 @@ export const FEATURE_LIBRARY = [
   {
     key: 'browEye',
     title: '眉眼关系',
-    eyebrow: 'BROW · EYE',
+    eyebrow: '眉眼关系',
     insight: '眉眼间距和眼神留白比较舒服，正面照片里容易形成稳定的视觉重心。',
     optimize: ['眉峰向外延长一点，眼神会更利落。', '眼妆保持一处重点，避免层次太满。'],
   },
   {
     key: 'nose',
     title: '鼻部节奏',
-    eyebrow: 'NOSE RHYTHM',
+    eyebrow: '鼻部节奏',
     insight: '鼻梁与面中比例自然，轻薄修容比强轮廓更能保留真实感。',
     optimize: ['修容集中在鼻梁两侧上段，过渡要轻。', '拍照时把光线放在面中偏前方。'],
   },
   {
     key: 'lips',
     title: '唇形表达',
-    eyebrow: 'LIP SHAPE',
+    eyebrow: '唇形表达',
     insight: '唇形边界清晰，适合用低饱和的水光或柔雾质地做轻量表达。',
     optimize: ['唇峰不必刻意描得太尖，保留一点圆润。', '试试比唇色深半度的边缘晕染。'],
   },
   {
     key: 'contour',
     title: '轮廓走向',
-    eyebrow: 'CONTOUR',
+    eyebrow: '轮廓走向',
     insight: '脸部外轮廓的转折较顺，发型和领口的纵向线条会让比例更利落。',
     optimize: ['露出一点下颌线，画面会更有呼吸感。', '肩颈打开后，轮廓的纵向感会更明显。'],
   },
@@ -86,4 +86,3 @@ export const COLOR_LIBRARY = {
 };
 
 export const DISCLAIMER = '镜面分数仅用于娱乐和自我观察，不是医学、审美或择偶判断，也不能替代专业咨询。';
-
