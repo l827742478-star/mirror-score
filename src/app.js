@@ -1,4 +1,5 @@
 import { createReport, loadReport, saveReport, validateImage } from './analysis.js';
+import { analyzeFaceImage } from './face-engine.js';
 
 const app = document.querySelector('#app');
 const fileInput = document.querySelector('#file-input');
@@ -23,6 +24,7 @@ const state = {
   gender: 'neutral',
   report: loadReport(),
   storageWarning: false,
+  isAnalyzing: false,
 };
 
 let toastTimer;
@@ -126,24 +128,38 @@ const updateProgress = (stage, label, width) => {
   document.querySelectorAll('.progress-stages span').forEach((item, index) => item.classList.toggle('is-active', index === stage - 1));
 };
 
-const startAnalysis = () => {
+const startAnalysis = async () => {
   if (!state.fileMeta) {
     showToast('请先选择照片。');
     setView('start');
     return;
   }
+  if (state.isAnalyzing) return;
+  state.isAnalyzing = true;
+  analyzeButton.disabled = true;
   setView('progress');
-  updateProgress(1, '读取轮廓', 20);
-  setTimeout(() => updateProgress(2, '拆解五官', 56), 560);
-  setTimeout(() => updateProgress(3, '生成建议', 82), 1120);
-  setTimeout(() => {
-    const report = createReport({ fileMeta: state.fileMeta, gender: state.gender });
+  updateProgress(1, '加载真实人脸模型', 12);
+  try {
+    const faceAnalysis = await analyzeFaceImage(state.fileMeta.preview, {
+      onProgress: ({ stage, label, width }) => updateProgress(stage, label, width),
+    });
+    if (!faceAnalysis.ok) throw new Error(faceAnalysis.message);
+    updateProgress(3, '根据实测数据生成报告', 94);
+    await new Promise((resolve) => setTimeout(resolve, 220));
+    const report = createReport({ fileMeta: state.fileMeta, gender: state.gender, faceAnalysis });
     state.report = report;
     state.storageWarning = !saveReport({ ...report, imagePreview: report.imagePreview?.length > 240_000 ? '' : report.imagePreview });
     renderReport(report);
     setView('report');
     if (state.storageWarning) showToast('报告已生成，但浏览器未允许持久保存。');
-  }, 1680);
+  } catch (error) {
+    setView('settings');
+    setStartError(error instanceof Error ? error.message : '人脸检测失败，请换一张正面照片再试。');
+    showToast('未通过真实人脸检测，报告没有生成。');
+  } finally {
+    state.isAnalyzing = false;
+    analyzeButton.disabled = !state.fileMeta;
+  }
 };
 
 const renderScoreRows = (dimensions) => dimensions.map((dimension) => `
@@ -183,6 +199,17 @@ const renderReport = (report) => {
         <div class="score-bubble"><strong>${report.totalScore}</strong><span>/ 100 · 综合观察分</span></div>
       </div>
       <div class="summary-image">${preview}</div>
+    </section>
+
+    <section class="report-section evidence-section">
+      <p class="section-kicker">REAL CHECK / EVIDENCE</p><h2 class="section-title">这次报告确实检测到了什么</h2>
+      <div class="evidence-grid">
+        <div><span>检测器</span><b>${escapeHtml(report.analysisEvidence?.detector || '真实人脸模型')}</b></div>
+        <div><span>人脸数量</span><b>${report.analysisEvidence?.faceCount || 0} 张</b></div>
+        <div><span>面部对称</span><b>${Math.round((report.analysisEvidence?.metrics?.symmetry || 0) * 100)}%</b></div>
+        <div><span>照片光线</span><b>${Math.round((report.analysisEvidence?.metrics?.lighting || 0) * 100)}%</b></div>
+      </div>
+      <p class="evidence-note">没有检测到一张清晰人脸或检测到多张脸时，系统会阻止报告生成；分数来自当前照片的关键点和像素测量，不使用文件名、文件大小或随机数猜分。</p>
     </section>
 
     <section class="report-section dimensions-section">
