@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f6f1ff" />
+    <meta name="description" content="镜面分数：用一份温和、可执行的外在观察报告，找到下一步。" />
+    <title>镜面分数 · MIRROR SCORE</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="ambient ambient-one" aria-hidden="true"></div>
+    <div class="ambient ambient-two" aria-hidden="true"></div>
+
+    <main id="app" class="app-shell">
+      <section id="start-view" class="view view-start" data-view="start" aria-labelledby="start-title">
+        <header class="topbar">
+          <a class="brand" href="#start" aria-label="镜面分数首页">
+            <span class="brand-mark" aria-hidden="true">✦</span>
+            <span><strong>镜面分数</strong><small>MIRROR SCORE</small></span>
+          </a>
+          <span class="topbar-note">一份属于你的外在观察报告</span>
+        </header>
+
+        <div class="hero-grid">
+          <div class="hero-copy">
+            <p class="kicker">LOOK CLOSER · LIVE GENTLY</p>
+            <h1 id="start-title">看见你的脸，<br /><em>也看见下一步。</em></h1>
+            <p class="hero-lede">上传一张自然照片，获得一份不急着下结论的五官与风格报告。把分数当成线索，把建议变成自己的选择。</p>
+            <div class="hero-proof" aria-label="产品特征">
+              <span><b>05</b> 个观察维度</span>
+              <span><b>04</b> 组五官拆解</span>
+              <span><b>01</b> 份行动报告</span>
+            </div>
+          </div>
+
+          <div class="upload-card panel">
+            <div class="upload-card-top">
+              <span class="mini-label">STEP 01 / PHOTO</span>
+              <span class="soft-badge">本地处理</span>
+            </div>
+            <button id="dropzone" class="dropzone" type="button" data-action="choose-file" aria-describedby="upload-help">
+              <span class="drop-orb" aria-hidden="true"><span>↗</span></span>
+              <strong>把照片放在这里</strong>
+              <span>拖入或点击选择 · JPG / PNG / WEBP</span>
+              <small id="upload-help">单张不超过 8MB，不会上传到服务器</small>
+            </button>
+            <input id="file-input" type="file" accept="image/jpeg,image/png,image/webp" hidden />
+            <button class="upload-own-button" type="button" data-action="choose-file"><span aria-hidden="true">＋</span> 上传自己的照片</button>
+            <button class="example-link" type="button" data-action="example-photo">用真人示例照片看看 →</button>
+            <div id="start-error" class="inline-error" role="alert" hidden></div>
+          </div>
+        </div>
+
+        <div class="start-footnote">
+          <span class="spark-dot" aria-hidden="true"></span>
+          <span>温和地看待自己，比追逐一个数字更重要。</span>
+          <span class="footnote-rule" aria-hidden="true"></span>
+          <span class="footnote-code">M/S 01—24</span>
+        </div>
+      </section>
+
+      <section id="settings-view" class="view view-settings" data-view="settings" aria-labelledby="settings-title" hidden>
+        <header class="subbar">
+          <button class="icon-button" type="button" data-action="back-start" aria-label="返回开始页">←</button>
+          <div><span class="mini-label">STEP 02 / SETTING</span><h2 id="settings-title">让报告更贴近你</h2></div>
+          <span class="step-count">02 / 03</span>
+        </header>
+        <div class="settings-grid">
+          <div class="preview-panel panel">
+            <div class="preview-frame">
+              <img id="preview-image" alt="已选择的照片预览" hidden />
+              <div id="preview-placeholder" class="preview-placeholder" aria-hidden="true"><span>✦</span><small>照片预览</small></div>
+              <span class="preview-corner corner-tl" aria-hidden="true"></span><span class="preview-corner corner-br" aria-hidden="true"></span>
+            </div>
+            <div class="preview-meta"><span id="preview-name">示例照片</span><span id="preview-size">本地预览</span></div>
+          </div>
+          <div class="setting-card panel">
+            <p class="mini-label">YOUR PROFILE</p>
+            <h3>请选择一个分析视角</h3>
+            <p class="muted-copy">这只用于调整建议的语气与示例，不会改变你的分数。</p>
+            <div id="gender-options" class="choice-grid" role="radiogroup" aria-label="分析视角">
+              <button class="choice-button" type="button" data-gender="female" role="radio" aria-checked="false"><span>♀</span>女性</button>
+              <button class="choice-button" type="button" data-gender="male" role="radio" aria-checked="false"><span>♂</span>男性</button>
+              <button class="choice-button is-selected" type="button" data-gender="neutral" role="radio" aria-checked="true"><span>◌</span>不透露</button>
+            </div>
+            <button id="analyze-button" class="primary-button full-button" type="button" data-action="start-analysis">开始生成报告 <span>→</span></button>
+            <p class="micro-copy"><span class="status-dot" aria-hidden="true"></span> 不上传照片 · 只在你的浏览器中处理</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="progress-view" class="view view-progress" data-view="progress" aria-labelledby="progress-title" hidden>
+        <div class="progress-wrap panel">
+          <div class="progress-orbit" aria-hidden="true"><span></span><span></span><span></span></div>
+          <p class="kicker">MIRROR SCORE / ANALYSIS</p>
+          <h2 id="progress-title">正在把照片翻译成<br /><em>你可以使用的线索</em></h2>
+          <div class="progress-track" aria-hidden="true"><span id="progress-bar"></span></div>
+          <p id="progress-label" class="progress-label" aria-live="polite">读取轮廓 · 01</p>
+          <div class="progress-stages" aria-label="分析进度">
+            <span class="is-active">01 <small>读取轮廓</small></span><span>02 <small>拆解五官</small></span><span>03 <small>生成建议</small></span>
+          </div>
+        </div>
+      </section>
+
+      <section id="report-view" class="view view-report" data-view="report" aria-labelledby="report-heading" hidden>
+        <header class="report-topbar">
+          <button class="icon-button" type="button" data-action="reset-settings" aria-label="重新分析">↺</button>
+          <div class="report-brand"><span class="brand-mark" aria-hidden="true">✦</span><span><strong>镜面分数</strong><small>YOUR REPORT</small></span></div>
+          <button class="text-button" type="button" data-action="open-poster">生成海报 ↗</button>
+        </header>
+        <div id="report-content" class="report-content"></div>
+      </section>
+    </main>
+
+    <dialog id="poster-dialog" class="poster-dialog" aria-labelledby="poster-title">
+      <div id="poster-content"></div>
+      <button class="poster-close" type="button" data-action="close-poster" aria-label="关闭海报预览">×</button>
+    </dialog>
+    <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+    <script type="module" src="./src/app.js"></script>
+  </body>
+</html>
