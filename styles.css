@@ -157,6 +157,13 @@ h1 em, .progress-wrap h2 em { color: var(--purple); font-style: normal; }
 .pill { display: inline-flex; align-items: center; padding: 7px 10px; border-radius: 999px; color: var(--purple-deep); background: #f1e7fb; font-size: 10px; }
 .pill.pink { color: #95516e; background: #f6e4ed; }
 
+.evidence-section { background: linear-gradient(140deg, #fff, #f8f4ff); }
+.evidence-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 18px; }
+.evidence-grid div { display: grid; gap: 6px; min-width: 0; padding: 13px 12px; border: 1px solid var(--line); border-radius: 12px; background: rgba(255,255,255,.7); }
+.evidence-grid span { color: var(--soft-muted); font-size: 9px; letter-spacing: .08em; text-transform: uppercase; }
+.evidence-grid b { overflow: hidden; color: var(--purple-deep); font-size: 12px; text-overflow: ellipsis; white-space: nowrap; }
+.evidence-note { margin: 15px 0 0; color: var(--muted); font-size: 11px; line-height: 1.7; }
+
 .dimensions-section { background: #fff; }
 .dimension-list { display: grid; gap: 13px; margin-top: 22px; }
 .dimension-row { display: grid; grid-template-columns: 72px 1fr 38px; align-items: center; gap: 12px; }
@@ -260,6 +267,7 @@ h1 em, .progress-wrap h2 em { color: var(--purple); font-style: normal; }
   .summary-image { width: 96px; height: 132px; border-width: 5px; }
   .summary-copy h1 { font-size: 30px; }
   .score-bubble { margin-top: 16px; }
+  .evidence-grid { grid-template-columns: repeat(2, 1fr); }
   .split-grid, .feature-grid { grid-template-columns: 1fr; }
   .report-section { padding: 21px; }
   .action-section { grid-template-columns: 1fr; }
